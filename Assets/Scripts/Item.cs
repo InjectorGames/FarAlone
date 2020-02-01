@@ -12,7 +12,7 @@ public enum ItemType
     Detail,
 }
 
-public abstract class Item
+public abstract class Item : MonoBehaviour
 {
     public string name;
     public float weight; // the weight of the item in the inventory

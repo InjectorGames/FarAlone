@@ -8,7 +8,7 @@ namespace Reserve
 {
 public enum InventoryType
 {
-    Small = 0,
+    Small,
     Medium,
     Big,
 }
@@ -20,7 +20,7 @@ public class Inventory
     public float max_weight;
     public int cur_elements_amount;
     public int max_elements_amount;
-    List<Item> elements;
+    public List<Item> elements;
 
     public Inventory()
     {
@@ -36,22 +36,24 @@ public class Inventory
     {
         cur_elements_amount = 0;
         current_weight = 0.0f;
-        elements = new List<Item>(cur_elements_amount);
 
         if(size == InventoryType.Small)
         {
             max_elements_amount = 5;
             max_weight = 10.0f;
+            elements = new List<Item>(max_elements_amount);
         }
         else if(size == InventoryType.Medium)
         {
             max_elements_amount = 7;
             max_weight = 13.0f;
+            elements = new List<Item>(max_elements_amount);
         }
         else if(size == InventoryType.Big)
         {
             max_elements_amount = 10;
             max_weight = 17.0f;
+            elements = new List<Item>(max_elements_amount);
         }
     }
 
@@ -100,6 +102,15 @@ public class Inventory
     public void Delete_Element(int position)
     {
         elements.RemoveAt(position);
+    }
+
+    public bool IsFull()
+    {
+        if(elements.Capacity == max_elements_amount)
+        {
+            return true;
+        }
+        return false;
     }
 }
 }

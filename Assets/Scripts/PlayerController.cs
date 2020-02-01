@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
+
+using Reserve; //namespace with Inventory class
+using Items;
+using PlayerText;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public sealed class PlayerController : MonoBehaviour
 {
+    public Inventory inventory;
     public float playerSpeed = 1f;
     public float cameraSpeed = 1f;
 
     private Rigidbody2D rb;
+
+    public PlayerController()
+    {
+        inventory = new Inventory(InventoryType.Small);
+    }
 
     private void Start()
     {
@@ -44,4 +55,19 @@ public sealed class PlayerController : MonoBehaviour
         newPosition.z = -1f;
         cameraTransform.position = newPosition;
     }
+
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if(collider.gameObject.GetComponent<Item>() as Item)
+        {
+            if(Input.GetKeyDown(KeyCode.E) && this.inventory.IsFull())
+            {
+                Destroy(collider.gameObject);
+                this.inventory.Add_Element(collider.gameObject.GetComponent<Item>());
+                Debug.Log(this.inventory.elements.Count);
+            }
+        }
+    }
+
 }
