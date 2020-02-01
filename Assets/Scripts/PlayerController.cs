@@ -32,9 +32,9 @@ public sealed class PlayerController : MonoBehaviour
         var vertical = Input.GetAxis("Vertical");
 
         if (horizontal * vertical == 0)
-            rb.velocity = new Vector3(horizontal * playerSpeed, vertical * playerSpeed, 0f) * (Input.GetKey(KeyCode.LeftShift) ? 2f : 1f);
+            rb.velocity = new Vector2(horizontal * playerSpeed, vertical * playerSpeed) * (Input.GetKey(KeyCode.LeftShift) ? 2f : 1f);
         else
-            rb.velocity = new Vector3(horizontal * (playerSpeed / 1.414f), vertical * (playerSpeed / 1.414f), 0f) * (Input.GetKey(KeyCode.LeftShift) ? 2f : 1f);
+            rb.velocity = new Vector2(horizontal * (playerSpeed / 1.414f), vertical * (playerSpeed / 1.414f)) * (Input.GetKey(KeyCode.LeftShift) ? 2f : 1f);
     }
 
     private void UpdateCameraFollow()
