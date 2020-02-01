@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Water
+    uniqueID: 1759531085
+    locked: 0
+  - name: Ground
+    uniqueID: 3142305301
+    locked: 0
+  - name: Entity
+    uniqueID: 1906147693
+    locked: 0
