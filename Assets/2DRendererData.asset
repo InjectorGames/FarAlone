@@ -23,7 +23,7 @@ MonoBehaviour:
     customBlendFactors:
       multiplicative: 0
       additive: 0
-  - enabled: 1
+  - enabled: 0
     name: Direct Light
     maskTextureChannel: 1
     renderTextureScale: 1

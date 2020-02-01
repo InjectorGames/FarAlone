@@ -9,14 +9,16 @@ using Reserve; //namespace with Inventory class
 using Items;
 using PlayerText;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public sealed class PlayerController : MonoBehaviour
 {
     public Inventory inventory;
     public float playerSpeed = 1f;
     public float cameraSpeed = 1f;
+    public Transform handLeft;
 
     private Rigidbody2D rb;
+    private Animator animator;
 
     public PlayerController()
     {
@@ -26,15 +28,23 @@ public sealed class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>() ?? throw new NullReferenceException();
+        animator = GetComponent<Animator>() ?? throw new NullReferenceException();
 
-        Camera.main.transparencySortMode = TransparencySortMode.CustomAxis;
-        Camera.main.transparencySortAxis = new Vector3(0.0f, 1.0f, 0.0f);
+        if (handLeft == null)
+            throw new NullReferenceException();
+
+        var camera = Camera.main;
+        camera.transparencySortMode = TransparencySortMode.CustomAxis;
+        camera.transparencySortAxis = new Vector3(0.0f, 1.0f, 0.0f);
     }
 
     private void FixedUpdate()
     {
         UpdateMovement();
         UpdateCameraFollow();
+        UpdateDirection();
+        UpdateHandRotation();
+        UpdateWalkAnimation();
     }
 
     private void UpdateMovement()
@@ -70,4 +80,29 @@ public sealed class PlayerController : MonoBehaviour
         }
     }
 
+    private void UpdateDirection()
+    {
+        var mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (transform.position.x > mouseWorldPosition.x)
+            transform.eulerAngles = new Vector3(0f, 0f, 0f);
+        else
+            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+    }
+
+    private void UpdateHandRotation()
+    {
+        var mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var relative = handLeft.InverseTransformPoint(mouseWorldPosition);
+        var angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+        handLeft.Rotate(0, 0, -angle);
+    }
+
+    private void UpdateWalkAnimation()
+    {
+        if (rb.velocity.magnitude > 0f)
+            animator.SetBool("IsWalking", true);
+        else
+            animator.SetBool("IsWalking", false);
+    }
 }
