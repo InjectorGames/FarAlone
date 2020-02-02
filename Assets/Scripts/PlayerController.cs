@@ -104,8 +104,17 @@ public sealed class PlayerController : MonoBehaviour
     private void UpdateWalkAnimation()
     {
         if (rb.velocity.magnitude > 0f)
+        {
             animator.SetBool("IsWalking", true);
+
+            if (Input.GetKey(KeyCode.LeftShift))
+                animator.speed = 2f;
+            else
+                animator.speed = 1f;
+        }
         else
+        {
             animator.SetBool("IsWalking", false);
+        }
     }
 }
