@@ -37,6 +37,12 @@ public sealed class PlayerController : MonoBehaviour
         camera.transparencySortAxis = new Vector3(0.0f, 1.0f, 0.0f);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit(0);
+    }
+
     private void FixedUpdate()
     {
         UpdateMovement();

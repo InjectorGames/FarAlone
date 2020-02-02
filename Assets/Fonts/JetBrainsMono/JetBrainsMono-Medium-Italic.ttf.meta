@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 2c3d901d390f992449991df4b5cde8ff
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: JetBrains Mono Medium
+  fontNames:
+  - JetBrains Mono Medium
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 510a4ebf40bc3b54a925afc81689ba16, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

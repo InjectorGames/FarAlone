@@ -7,9 +7,9 @@ public sealed class InfoText : MonoBehaviour
 {
     public static InfoText instance;
     private int fadeTime = 5;
-Text notification;
-    
-    void Start()
+    Text notification;
+
+    private void Awake()
     {
         instance = this;
         notification = GetComponent<Text>();
@@ -23,7 +23,8 @@ Text notification;
         Debug.Log("Finished");
     }
 
-    private IEnumerator animate(Text text, int time) {
+    private IEnumerator animate(Text text, int time)
+    {
         text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
         yield return new WaitForSeconds(time);
         text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
