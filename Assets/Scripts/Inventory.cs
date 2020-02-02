@@ -81,13 +81,13 @@ public class Inventory
     public bool Add_Element(Item arg_item)
     {
         var new_item = arg_item;
-        if(arg_item is Weapon)
+        if(arg_item is ItemWeapon)
         {
-            new_item = (Weapon)arg_item;
+            new_item = (ItemWeapon)arg_item;
         }
-        else if(arg_item is Detail)
+        else if(arg_item is ItemDetail)
         {
-            new_item = (Detail)arg_item;
+            new_item = (ItemDetail)arg_item;
         }
         if((this.cur_elements_amount +1) > this.max_elements_amount || (this.current_weight + new_item.weight) > this.max_weight)
         {
