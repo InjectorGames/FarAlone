@@ -75,6 +75,7 @@ public sealed class PlayerController : MonoBehaviour
                 this.inventory.CanStore(collider.gameObject.GetComponent<Item>().weight)
                 )
             {
+                Debug.Log("Current weight: " + this.inventory.current_weight);
                 Destroy(collider.gameObject);
                 this.inventory.Add_Element(collider.gameObject.GetComponent<Item>());
                 Debug.Log(this.inventory.elements.Count);
