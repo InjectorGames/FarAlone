@@ -79,6 +79,8 @@ public sealed class PlayerController : MonoBehaviour
                 this.inventory.Add_Element(collider.gameObject.GetComponent<Item>());
                 Debug.Log("Elements: " + this.inventory.elements.Count);
                 Debug.Log("Current weight: " + this.inventory.current_weight);
+                // I can add the name of the object later
+                InfoText.instance.ShowMessage("Object added");
             }
         }
     }
