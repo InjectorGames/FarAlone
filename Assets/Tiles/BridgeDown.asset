@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: BridgeSideStart
+  m_Name: BridgeDown
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: d33edc0b953c4fd449c3b6ca3600b576, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a52ed15e3fd49ff47aa733d153fe6791, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
