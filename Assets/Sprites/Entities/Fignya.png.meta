@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6b080d56585c5c1488807a4a2a5f32bb
+guid: 35cdbe2d867b02f49b301c1e2a06e88e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,9 +43,9 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 4096
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0.18}
+  spritePixelsToUnits: 2048
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -87,12 +87,10 @@ TextureImporter:
     sprites: []
     outline: []
     physicsShape:
-    - - {x: -2048, y: -2048}
-      - {x: -2048, y: 2048}
-      - {x: -678, y: 861}
-      - {x: 76, y: -371}
-      - {x: 1124, y: -873}
-      - {x: 2048, y: -2048}
+    - - {x: -880, y: -1431}
+      - {x: -567, y: -1219}
+      - {x: 650, y: -1141}
+      - {x: 877, y: -1371}
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
@@ -100,7 +98,9 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: baf5e7ef449ae6c44b51f54dfc666822, type: 3}
+      name: _NormalMap
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

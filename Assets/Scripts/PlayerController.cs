@@ -5,9 +5,8 @@ using System;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-using Reserve; //namespace with Inventory class
+using Reserve; // namespace with Inventory class
 using Items;
-using PlayerText;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public sealed class PlayerController : MonoBehaviour
