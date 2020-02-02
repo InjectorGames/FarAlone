@@ -104,13 +104,13 @@ public class Inventory
         elements.RemoveAt(position);
     }
 
-    public bool IsFull()
+    public bool CanStore(float arg_weight)
     {
-        if(elements.Capacity == max_elements_amount)
+        if(this.cur_elements_amount == this.max_elements_amount || this.current_weight + arg_weight > this.max_weight)
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }
 }

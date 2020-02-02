@@ -70,7 +70,10 @@ public sealed class PlayerController : MonoBehaviour
     {
         if(collider.gameObject.GetComponent<Item>() as Item)
         {
-            if(Input.GetKeyDown(KeyCode.E) && this.inventory.IsFull())
+            if  (
+                Input.GetKeyDown(KeyCode.E) &&
+                this.inventory.CanStore(collider.gameObject.GetComponent<Item>().weight)
+                )
             {
                 Destroy(collider.gameObject);
                 this.inventory.Add_Element(collider.gameObject.GetComponent<Item>());
