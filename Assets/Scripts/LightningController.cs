@@ -6,44 +6,47 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(Light2D))]
-public sealed class LightningController : MonoBehaviour
+namespace InjectorGames.FarAlone
 {
-    private Light2D globalLight;
-
-    private float waitDelay = 5;
-    private float emitDelay = 0;
-
-    private void Start()
+    [RequireComponent(typeof(Light2D))]
+    public class LightningController : MonoBehaviour
     {
-        globalLight = GetComponent<Light2D>() ?? throw new NullReferenceException();
-    }
+        private Light2D globalLight;
 
-    private void Update()
-    {
-        UpdateLightning();
-    }
+        private float waitDelay = 5;
+        private float emitDelay = 0;
 
-    private void UpdateLightning()
-    {
-        if (waitDelay < 0f)
+        private void Start()
         {
-            if (Random.Range(0, 10) == 0)
-                waitDelay += Random.Range(0.05f, 0.25f);
-            else
-                waitDelay += Random.Range(5, 30);
-
-            emitDelay = Random.Range(0.05f, 0.25f);
-            globalLight.intensity = 1.0f;
+            globalLight = GetComponent<Light2D>() ?? throw new NullReferenceException();
         }
 
-        if (emitDelay < 0f)
+        private void Update()
         {
-            emitDelay = float.MaxValue;
-            globalLight.intensity = 0.2f;
+            UpdateLightning();
         }
 
-        waitDelay -= Time.deltaTime;
-        emitDelay -= Time.deltaTime;
+        private void UpdateLightning()
+        {
+            if (waitDelay < 0f)
+            {
+                if (Random.Range(0, 10) == 0)
+                    waitDelay += Random.Range(0.05f, 0.25f);
+                else
+                    waitDelay += Random.Range(5, 30);
+
+                emitDelay = Random.Range(0.05f, 0.25f);
+                globalLight.intensity = 1.0f;
+            }
+
+            if (emitDelay < 0f)
+            {
+                emitDelay = float.MaxValue;
+                globalLight.intensity = 0.2f;
+            }
+
+            waitDelay -= Time.deltaTime;
+            emitDelay -= Time.deltaTime;
+        }
     }
 }

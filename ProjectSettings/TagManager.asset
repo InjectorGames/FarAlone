@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Blast
+  - Enemy
+  - Status bar
   layers:
   - Default
   - TransparentFX
@@ -13,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Creature
   - 
   - 
   - 
@@ -49,4 +52,7 @@ TagManager:
     locked: 0
   - name: Entity
     uniqueID: 1906147693
+    locked: 0
+  - name: Bar
+    uniqueID: 1094962407
     locked: 0
