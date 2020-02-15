@@ -20,7 +20,7 @@ namespace InjectorGames.FarAlone.UI
         }
         #endregion
 
-        public GameObject content;
+        public Transform content;
         public GameObject takedSlot;
         public GameObject slotPrefab;
 
@@ -77,6 +77,7 @@ namespace InjectorGames.FarAlone.UI
             {
                 var item = itemInfos[i];
 
+#if UNITY_EDITOR
                 if (string.IsNullOrEmpty(item.name))
                     throw new Exception($"Item name can not be null or empty at {i}");
                 if (item.weight <= 0)
@@ -89,6 +90,7 @@ namespace InjectorGames.FarAlone.UI
                     if (i != j && item.name == itemInfos[j].name)
                         throw new Exception($"More than one item at {i} and {j}");
                 }
+#endif
 
                 item.id = i;
                 ItemLinks.Add(item.name, i);
@@ -174,7 +176,7 @@ namespace InjectorGames.FarAlone.UI
             if (!CanStore(info.weight))
                 return false;
 
-            var slot = Instantiate(slotPrefab, content.transform).GetComponent<Slot>();
+            var slot = Instantiate(slotPrefab, content).GetComponent<Slot>();
             slot.ItemInfo = info;
             slot.OnTakeEvent = OnTake;
             Slots.Add(slot);

@@ -181,8 +181,10 @@ namespace InjectorGames.FarAlone.Players
                 shootDelay = 0.25f;
 
                 // TODO: move shooting offset to weapon specification
-                var offset = new Vector3(UnityEngine.Random.Range(-20, 20), UnityEngine.Random.Range(-20, 20));
-                var direction = Camera.main.ScreenToWorldPoint(Input.mousePosition + offset) - blastSpawnPoint.position;
+                var shootPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                var shootDistance = Vector3.Distance(blastSpawnPoint.position, shootPosition);
+                var offset = new Vector3(UnityEngine.Random.Range(-shootDistance, shootDistance) / 20f, UnityEngine.Random.Range(-shootDistance, shootDistance) / 20f);
+                var direction = shootPosition + offset - blastSpawnPoint.position;
 
                 if (direction.magnitude > 1.414f)
                 {
