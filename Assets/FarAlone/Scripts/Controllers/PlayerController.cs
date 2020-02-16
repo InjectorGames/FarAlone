@@ -25,15 +25,20 @@ namespace InjectorGames.FarAlone.Players
         public float HP;
         
         /* Movement & stamina variables */
-        public float walkingSpeed = 1f;
-        public float runningSpeed = 2f;
+        public float walkingSpeed;
+        public float runningSpeed;
 
-        public float currentSpeed;
+        private float currentSpeed;
 
-        private float runningTime = 0f;
-        private float maxRunningTime = 8f;
-        private float restingTime = 0f;
-        private float maxRestingTime = 8f;
+
+        public float stamina {get; private set;}
+        private float maxStamina = 100f;
+
+        private const float staminaLose = 5f;
+        private const float staminaRest = 1f;
+        private float restDelay;
+        private float runDelay;
+
         public bool canRun = true;
 
         /* end */
@@ -55,7 +60,12 @@ namespace InjectorGames.FarAlone.Players
 
         private void Start()
         {
+            stamina = maxStamina; //Movement
+            /* Delays */
             shootDelay = 0f;
+            restDelay = 0f;
+            runDelay = 0f;
+            /* End */
             rb = GetComponent<Rigidbody2D>() ?? throw new NullReferenceException();
             animator = GetComponent<Animator>() ?? throw new NullReferenceException();
 
@@ -66,7 +76,6 @@ namespace InjectorGames.FarAlone.Players
             camera.transparencySortMode = TransparencySortMode.CustomAxis;
             camera.transparencySortAxis = new Vector3(0.0f, 1.0f, 0.0f);
 
-            HeBarChild = this.gameObject.transform.GetChild(7);
         }
 
         private void Update()
@@ -92,24 +101,37 @@ namespace InjectorGames.FarAlone.Players
             var horizontal = Input.GetAxis("Horizontal");
             var vertical = Input.GetAxis("Vertical");
 
-            if (Input.GetKey(KeyCode.LeftShift) && canRun) {
+            runDelay -= Time.deltaTime;
+            restDelay -= Time.deltaTime;
+
+            if (Input.GetKey(KeyCode.LeftShift) && canRun && stamina > 5) {
                 currentSpeed = runningSpeed;
-                runningTime += Time.deltaTime;
-                if (runningTime >= maxRunningTime) {
-                    runningTime = 0f;
+                if(runDelay < 0f)
+                {
+                    runDelay = 0.5f;
+                    stamina -= staminaLose;
+                }
+
+                if(stamina <= 0)
+                {
                     canRun = false;
                 }
             }
-            else {
+            else
+            {
                 currentSpeed = walkingSpeed;
-                if (restingTime < maxRestingTime) {
-                    restingTime += Time.deltaTime;
-                }
-                else {
-                    restingTime = 0f;
+
+                if(stamina < 0)
+                    stamina = 0;
+
+                if(stamina < maxStamina && stamina >= 0 && restDelay < 0f)
+                {
+                    restDelay = 0.7f;
+                    stamina += staminaRest;
                     canRun = true;
                 }
             }
+
 
             if (horizontal * vertical == 0)
                 rb.velocity = new Vector2(horizontal * currentSpeed, vertical * currentSpeed);
