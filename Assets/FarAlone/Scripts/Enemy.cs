@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-using InjectorGames.FarAlone.Players;
+using InjectorGames.FarAlone.Controllers;
 
 public class Enemy : MonoBehaviour
 {
@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
         distanceToTarget = Vector2.Distance(rb.position, target.position);
 
         if(HP <= 0)
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         if(distanceToTarget <= AtkRange)
         {
             if(Time.time >= elapsedTime)
@@ -114,7 +114,7 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D trigger)
     {
-        if(trigger.tag == "Blast")
+        if(trigger.CompareTag("Blast"))
         {
             HP -= 7.5f;
             Debug.Log(HP);
@@ -127,14 +127,6 @@ public class Enemy : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = 0f;
 
-        float targetHP = target.GetComponent<PlayerController>().HP;
-
-        targetHP -= AtkDamage;
-
-        target.GetComponent<PlayerController>().HP = targetHP;
-
-        Debug.Log(target.GetComponent<PlayerController>().HP);
-
-
+        PlayerController.Instance.Healt -= AtkDamage;
     }
 }

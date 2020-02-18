@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 using InjectorGames.FarAlone.UI;
 
-namespace InjectorGames.FarAlone.Players
+namespace InjectorGames.FarAlone.Controllers
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
     public sealed class PlayerController : MonoBehaviour
@@ -22,62 +22,73 @@ namespace InjectorGames.FarAlone.Players
         }
         #endregion
 
-        public float HP;
-        
-        /* Movement & stamina variables */
-        public float walkingSpeed;
-        public float runningSpeed;
+        [Header("Information")]
+        [SerializeField]
+        private float health = 100f; // TODO: use health interval as 1.0f
+        public float Healt
+        {
+            get
+            {
+                return health;
+            }
+            set
+            {
+                health = value;
+                // TODO: check for death
+            }
+        }
 
-        private float currentSpeed;
+        [SerializeField]
+        private float stamina = 100f;
+        public float Stamina => Stamina;
 
-
-        public float stamina {get; private set;}
-        private float maxStamina = 100f;
-
+        // TODO: make stamina change smooth
         private const float staminaLose = 5f;
         private const float staminaRest = 1f;
         private float restDelay;
-        private float runDelay;
+        
 
-        public bool canRun = true;
+        [Header("Movement")]
+        [SerializeField]
+        private float walkingSpeed = 2.5f;
+        [SerializeField]
+        private float runningSpeed = 3.25f;
+        [SerializeField]
+        private float currentSpeed = 0f;
+        [SerializeField]
+        private float runDelay = 0f;
 
-        /* end */
+        [SerializeField]
+        private bool canRun = true;
+        public bool CanRun => canRun;
 
-        public float cameraSpeed = 1f;
-        public Transform handLeft;
-        public Transform blastSpawnPoint;
-        public GameObject blastPreafab;
-
-        private float shootDelay;
+        [Header("Control")]
+        [SerializeField]
+        private float cameraSpeed = 1f;
+        [SerializeField]
+        private Transform handLeft;
+        [SerializeField]
         private Rigidbody2D rb;
+        [SerializeField]
         private Animator animator;
-        private Transform HeBarChild;
+
+        [SerializeField]
+        public Transform blastSpawnPoint; // TODO: move this to weapon item class
+        [SerializeField]
+        public GameObject blastPreafab;
+        [SerializeField]
+        private float shootDelay = 0f;
 
         private void Awake()
         {
             SetInstance();
         }
-
         private void Start()
         {
-            stamina = maxStamina; //Movement
-            /* Delays */
-            shootDelay = 0f;
-            restDelay = 0f;
-            runDelay = 0f;
-            /* End */
-            rb = GetComponent<Rigidbody2D>() ?? throw new NullReferenceException();
-            animator = GetComponent<Animator>() ?? throw new NullReferenceException();
-
-            if (handLeft == null)
-                throw new NullReferenceException();
-
             var camera = Camera.main;
             camera.transparencySortMode = TransparencySortMode.CustomAxis;
             camera.transparencySortAxis = new Vector3(0.0f, 1.0f, 0.0f);
-
         }
-
         private void Update()
         {
             // TODO: open pause menu instead
@@ -86,9 +97,9 @@ namespace InjectorGames.FarAlone.Players
 
             UpdateShooting();
         }
-
         private void FixedUpdate()
         {
+            UpdateInfo();
             UpdateMovement();
             UpdateCameraFollow();
             UpdateDirection();
@@ -96,6 +107,13 @@ namespace InjectorGames.FarAlone.Players
             UpdateWalkAnimation();
         }
 
+        private void UpdateInfo()
+        {
+            var infoWindow = InfoWindow.Instance;
+
+            infoWindow.Health = health;
+            infoWindow.Stamine = stamina;
+        }
         private void UpdateMovement()
         {
             var horizontal = Input.GetAxis("Horizontal");
@@ -104,7 +122,8 @@ namespace InjectorGames.FarAlone.Players
             runDelay -= Time.deltaTime;
             restDelay -= Time.deltaTime;
 
-            if (Input.GetKey(KeyCode.LeftShift) && canRun && stamina > 5) {
+            if (Input.GetKey(KeyCode.LeftShift) && canRun && stamina > 5)
+            {
                 currentSpeed = runningSpeed;
                 if(runDelay < 0f)
                 {
@@ -124,14 +143,13 @@ namespace InjectorGames.FarAlone.Players
                 if(stamina < 0)
                     stamina = 0;
 
-                if(stamina < maxStamina && stamina >= 0 && restDelay < 0f)
+                if(stamina < 100f && stamina >= 0 && restDelay < 0f)
                 {
                     restDelay = 0.7f;
                     stamina += staminaRest;
                     canRun = true;
                 }
             }
-
 
             if (horizontal * vertical == 0)
                 rb.velocity = new Vector2(horizontal * currentSpeed, vertical * currentSpeed);

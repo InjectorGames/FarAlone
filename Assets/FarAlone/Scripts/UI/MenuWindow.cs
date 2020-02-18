@@ -18,8 +18,11 @@ namespace InjectorGames.FarAlone.UI
         }
         #endregion
 
-        public GameObject game;
-        public GameObject menu;
+        [Header("Menu")]
+        [SerializeField]
+        private GameObject game;
+        [SerializeField]
+        private GameObject menu;
 
         private void Awake()
         {

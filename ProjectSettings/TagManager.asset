@@ -54,6 +54,3 @@ TagManager:
   - name: Entity
     uniqueID: 1906147693
     locked: 0
-  - name: Bar
-    uniqueID: 1094962407
-    locked: 0

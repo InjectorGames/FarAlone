@@ -10,23 +10,25 @@ namespace InjectorGames.FarAlone.UI
     [RequireComponent(typeof(Button))]
     public class Slot : MonoBehaviour
     {
-        public Image itemImage;
+        [SerializeField]
+        protected Image itemImage;
+        public Image ItemImage => itemImage;
 
-        private ItemInfo itemInfo;
-        public ItemInfo ItemInfo
+        protected Item item;
+        public Item Item
         {
             get
             {
-                return itemInfo;
+                return item;
             }
             set
             {
-                itemInfo = value;
-                itemImage.sprite = itemInfo.sprite;
+                item = value;
+                itemImage.sprite = item.Sprite;
             }
         }
 
-        public Action<Slot> OnTakeEvent { get; set; }
+        public Action<Slot> OnPressEvent { get; set; }
 
         private void Awake()
         {
@@ -34,9 +36,9 @@ namespace InjectorGames.FarAlone.UI
                 throw new NullReferenceException();
         }
 
-        public void OnTake()
+        public void OnPress()
         {
-            OnTakeEvent?.Invoke(this);
+            OnPressEvent?.Invoke(this);
         }
     }
 }
