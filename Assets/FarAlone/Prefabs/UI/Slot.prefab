@@ -120,7 +120,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 755032156831084998}
-        m_MethodName: OnTake
+        m_MethodName: OnPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

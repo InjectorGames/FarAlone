@@ -1,4 +1,6 @@
-﻿using InjectorGames.FarAlone.Items;
+﻿using InjectorGames.FarAlone.Controllers;
+using InjectorGames.FarAlone.Items;
+using InjectorGames.FarAlone.Repairs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,30 +10,35 @@ namespace InjectorGames.FarAlone.UI
 {
     public class RepairWindow : Window
     {
-        public Transform content;
-        public GameObject slotPrefab;
+        [SerializeField]
+        protected Transform content;
+        [SerializeField]
+        protected GameObject slotPrefab;
 
-        public Transform target;
-        public VisualRepair visual;
-        public float offset = 175f;
-
-        public string[] repairItems;
-        // TODO: Create RepairSlot class
+        [Header("Repair Target")]
+        [SerializeField]
+        protected Transform target;
+        [SerializeField]
+        protected VisualRepair visual;
+        [SerializeField]
+        protected float offset;
+        [SerializeField]
+        protected string[] repairItems;
 
         public List<RepairSlot> Slots { get; private set; } = new List<RepairSlot>();
 
         private void Start()
         {
-            var inventory = InventoryWindow.Instance;
+            var itemController = ItemController.Instance;
 
             for (int i = 0; i < repairItems.Length; i++)
             {
-                if (!inventory.TryGetItemInfo(repairItems[i], out ItemInfo info))
+                if (!itemController.TryGetItem(repairItems[i], out Item item))
                     throw new Exception($"Unknown item name at {i}");
 
                 var slot = Instantiate(slotPrefab, content).GetComponent<RepairSlot>();
-                slot.ItemInfo = info;
-                slot.OnRepairEvent = OnRepair;
+                slot.Item = item;
+                slot.OnPressEvent = OnRepair;
                 Slots.Add(slot);
             }
         }
@@ -60,7 +67,7 @@ namespace InjectorGames.FarAlone.UI
         private void UpdateWindowPosition()
         {
             var viewportPosition = Camera.main.WorldToViewportPoint(target.position);
-            var canvas = RepairWindowManager.Instance.canvas;
+            var canvas = RepairWindowManager.Instance.Canvas;
 
             var position = new Vector2(
                 (viewportPosition.x * canvas.sizeDelta.x) - (canvas.sizeDelta.x * 0.5f),
@@ -69,17 +76,15 @@ namespace InjectorGames.FarAlone.UI
             ((RectTransform)view.transform).anchoredPosition = position;
         }
 
-        private void OnRepair(RepairSlot slot)
+        private void OnRepair(Slot slot)
         {
+            var repairSlot = (RepairSlot)slot;
             var inventory = InventoryWindow.Instance;
 
-            if (inventory.TakedItem != slot.ItemInfo)
+            if (repairSlot.IsRepaired || inventory.TakedItem != repairSlot.Item || !inventory.TryUseTakedItem())
                 return;
 
-            inventory.OnSlotRelease();
-
-            if (inventory.TryRemoveSlot(slot.ItemInfo))
-                slot.IsRepaired = true;
+            repairSlot.IsRepaired = true;
 
             var percent = GetRepairedPercent();
             visual.OnRepair(percent);

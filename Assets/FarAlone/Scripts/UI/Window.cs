@@ -8,7 +8,9 @@ namespace InjectorGames.FarAlone.UI
 {
     public class Window : MonoBehaviour
     {
-        public GameObject view;
+        [Header("Window")]
+        [SerializeField]
+        protected GameObject view;
 
         public bool IsShowing()
         {

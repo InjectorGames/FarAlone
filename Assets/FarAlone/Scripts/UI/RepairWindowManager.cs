@@ -19,8 +19,13 @@ namespace InjectorGames.FarAlone.UI
         }
         #endregion
 
-        public RectTransform canvas;
-        public RepairWindow ship;
+        [SerializeField]
+        private RectTransform canvas;
+        public RectTransform Canvas => canvas;
+
+        [SerializeField]
+        private RepairWindow ship;
+        public RepairWindow Ship => ship;
 
         private void Awake()
         {

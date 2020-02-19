@@ -1,4 +1,5 @@
-﻿using InjectorGames.FarAlone.Items;
+﻿using InjectorGames.FarAlone.Controllers;
+using InjectorGames.FarAlone.Items;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,81 +21,30 @@ namespace InjectorGames.FarAlone.UI
         }
         #endregion
 
-        public Transform content;
-        public GameObject takedSlot;
-        public GameObject slotPrefab;
+        [Header("Inventory")]
+        [SerializeField]
+        private Transform content;
+        [SerializeField]
+        private GameObject takedSlot;
+        [SerializeField]
+        private GameObject slotPrefab;
 
-        public ItemInfo[] itemInfos;
-        public Dictionary<string, int> ItemLinks { get; private set; } = new Dictionary<string, int>();
+        [SerializeField]
+        private List<Slot> slots = new List<Slot>();
 
-        public int CurrentWeight { get; private set; }
-        public int MaxWeight { get; private set; }
-        public ItemInfo TakedItem { get; private set; }
-        public List<Slot> Slots { get; private set; } = new List<Slot>();
+        private Item takedItem;
+        public Item TakedItem => takedItem;
 
-        private InventorySizeType size;
-        public InventorySizeType Size
-        {
-            get
-            {
-                return size;
-            }
-            set
-            {
-                size = value;
-
-                switch (value)
-                {
-                    case InventorySizeType.Small:
-                        MaxWeight = 10;
-                        break;
-                    case InventorySizeType.Medium:
-                        MaxWeight = 13;
-                        break;
-                    case InventorySizeType.Big:
-                        MaxWeight = 17;
-                        break;
-                }
-            }
-        } 
 
         private void Awake()
         {
             SetInstance();
-            InitalizeItems();
-            Size = InventorySizeType.Small;
         }
 
         private void Update()
         {
             UpdateActive();
             UpdateTakedSlot();
-        }
-
-        private void InitalizeItems()
-        {
-            for (int i = 0; i < itemInfos.Length; i++)
-            {
-                var item = itemInfos[i];
-
-#if UNITY_EDITOR
-                if (string.IsNullOrEmpty(item.name))
-                    throw new Exception($"Item name can not be null or empty at {i}");
-                if (item.weight <= 0)
-                    throw new Exception($"Item weight can not be less or equal zero at {i}");
-                if (item.sprite == null)
-                    throw new Exception($"Item sprite can not be null at {i}");
-
-                for (int j = 0; j < itemInfos.Length; j++)
-                {
-                    if (i != j && item.name == itemInfos[j].name)
-                        throw new Exception($"More than one item at {i} and {j}");
-                }
-#endif
-
-                item.id = i;
-                ItemLinks.Add(item.name, i);
-            }
         }
 
         private void UpdateActive()
@@ -115,119 +65,62 @@ namespace InjectorGames.FarAlone.UI
 
         private void UpdateTakedSlot()
         {
-            if(TakedItem != null)
+            if(takedItem != null)
                 takedSlot.transform.position = Input.mousePosition;
         }
 
         private void OnTake(Slot slot)
         {
-            var info = slot.ItemInfo;
-            if (TakedItem == null && TryRemoveSlot(info))
-            {
-                TakedItem = info;
-                takedSlot.SetActive(true);
-                takedSlot.GetComponent<Image>().sprite = TakedItem.sprite;
-            }
+            var item = slot.Item;
+
+            if (!InventoryController.Instance.TryRemoveItem(item))
+                return;
+
+            takedItem = item;
+            takedSlot.GetComponent<Image>().sprite = item.Sprite;
+            takedSlot.SetActive(true);
         }
 
         public void OnSlotRelease()
         {
-            if (TakedItem != null && TryAddSlot(TakedItem))
-            {
-                TakedItem = null;
-                takedSlot.SetActive(false);
-            }
+            if (takedItem == null || !InventoryController.Instance.TryAddItem(takedItem))
+                return;
+
+            takedSlot.SetActive(false);
+            takedItem = null;
         }
 
-        public bool TryGetItemInfo(int id, out ItemInfo info)
+        public void AddSlot(Item item)
         {
-            try
-            {
-                info = itemInfos[id];
-                return true;
-            }
-            catch
-            {
-                info = null;
-                return false;
-            }
-        }
-        public bool TryGetItemInfo(string name, out ItemInfo info)
-        {
-            try
-            {
-                info = itemInfos[ItemLinks[name]];
-                return true;
-            }
-            catch
-            {
-                info = null;
-                return false;
-            }
-        }
-
-        public bool CanStore(int weight)
-        {
-            return CurrentWeight + weight <= MaxWeight;
-        }
-
-        public bool TryAddSlot(ItemInfo info)
-        {
-            if (!CanStore(info.weight))
-                return false;
-
             var slot = Instantiate(slotPrefab, content).GetComponent<Slot>();
-            slot.ItemInfo = info;
-            slot.OnTakeEvent = OnTake;
-            Slots.Add(slot);
-
-            CurrentWeight += info.weight;
-            return true;
-        }
-        public bool TryAddSlot(int id)
-        {
-            if (TryGetItemInfo(id, out ItemInfo info))
-                return TryAddSlot(info);
-            else
-                return false;
-        }
-        public bool TryAddSlot(string name)
-        {
-            if (TryGetItemInfo(name, out ItemInfo info))
-                return TryAddSlot(info);
-            else
-                return false;
+            slot.Item = item;
+            slot.OnPressEvent = OnTake;
+            slots.Add(slot);
         }
 
-        public bool TryRemoveSlot(ItemInfo info)
+        public void RemoveSlot(Item item)
         {
-            for (int i = 0; i < Slots.Count; i++)
+            for (int i = 0; i < slots.Count; i++)
             {
-                var slot = Slots[i];
-                if (slot.ItemInfo != info)
+                var slot = slots[i];
+
+                if (item != slot.Item)
                     continue;
 
                 Destroy(slot.gameObject);
-                CurrentWeight -= info.weight;
-                Slots.RemoveAt(i);
-                return true;
+                slots.RemoveAt(i);
+                return;
             }
+        }
 
-            return false;
-        }
-        public bool TryRemoveSlot(int id)
+        public bool TryUseTakedItem()
         {
-            if (TryGetItemInfo(id, out ItemInfo info))
-                return TryRemoveSlot(info);
-            else
+            if (takedItem == null)
                 return false;
-        }
-        public bool TryRemoveSlot(string name)
-        {
-            if (TryGetItemInfo(name, out ItemInfo info))
-                return TryRemoveSlot(info);
-            else
-                return false;
+
+            takedSlot.SetActive(false);
+            takedItem = null;
+            return true;
         }
     }
 }

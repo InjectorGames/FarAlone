@@ -1,17 +1,29 @@
-﻿using InjectorGames.FarAlone.UI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace InjectorGames.FarAlone.Items
 {
-    public class Item : MonoBehaviour
+    [Serializable]
+    public class Item
     {
-        private void Start()
+        protected int id;
+        public int ID => id;
+
+        [SerializeField]
+        protected string name;
+        public string Name => name;
+
+        [SerializeField]
+        protected int weight;
+        public int Weight => weight;
+
+        [SerializeField]
+        protected Sprite sprite;
+        public Sprite Sprite => sprite;
+
+        public void SetID(int id)
         {
-            if (!InventoryWindow.Instance.TryGetItemInfo(name, out _))
-                throw new Exception("Unknown item name");
+            this.id = id;
         }
     }
 }

@@ -120,7 +120,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4860295701282443162}
-        m_MethodName: OnRepair
+        m_MethodName: OnPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemImage: {fileID: 8824930790638642233}
+  isRepaired: 0
 --- !u!1 &8824930790638642231
 GameObject:
   m_ObjectHideFlags: 0

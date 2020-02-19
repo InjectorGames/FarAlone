@@ -6,9 +6,8 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 using Random = UnityEngine.Random;
 
-namespace InjectorGames.FarAlone
+namespace InjectorGames.FarAlone.Controllers
 {
-    [RequireComponent(typeof(Light2D))]
     public sealed class LightningController : MonoBehaviour
     {
         #region Singletone
@@ -22,15 +21,16 @@ namespace InjectorGames.FarAlone
         }
         #endregion
 
+        [SerializeField]
         private Light2D globalLight;
 
+        // TODO: move constant values to settings
         private float waitDelay = 5;
         private float emitDelay = 0;
 
         private void Awake()
         {
             SetInstance();
-            globalLight = GetComponent<Light2D>() ?? throw new NullReferenceException();
         }
 
         private void Update()
