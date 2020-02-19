@@ -27,13 +27,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         name = "NAME";
-        HP = 0;
-        AtkDamage = 0;
-        AtkRange = 0;
-        AtkSpeed = 0;
-        MovSpeed = 0;
         nextWaypointDistance = 3;
-        VisRange = 0;
 
         rb = this.GetComponent<Rigidbody2D>();
         seeker = this.GetComponent<Seeker>();
@@ -134,6 +128,7 @@ public class Enemy : MonoBehaviour
         target.GetComponent<PlayerController>().HP = targetHP;
 
         Debug.Log(target.GetComponent<PlayerController>().HP);
+
 
 
     }

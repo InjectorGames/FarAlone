@@ -34,8 +34,8 @@ namespace InjectorGames.FarAlone.Players
         public float stamina {get; private set;}
         private float maxStamina = 100f;
 
-        private const float staminaLose = 5f;
-        private const float staminaRest = 1f;
+        private const float staminaLose = 8.3f;
+        private const float staminaRest = 3.9f;
         private float restDelay;
         private float runDelay;
 
@@ -83,6 +83,9 @@ namespace InjectorGames.FarAlone.Players
             // TODO: open pause menu instead
             if (Input.GetKeyDown(KeyCode.Escape))
                 Application.Quit(0);
+            if (HP <= 0)
+                Destroy(this.gameObject); //TODO: Game over
+
 
             UpdateShooting();
         }
@@ -104,13 +107,10 @@ namespace InjectorGames.FarAlone.Players
             runDelay -= Time.deltaTime;
             restDelay -= Time.deltaTime;
 
-            if (Input.GetKey(KeyCode.LeftShift) && canRun && stamina > 5) {
+            if (Input.GetKey(KeyCode.LeftShift) && canRun && stamina > 0) {
                 currentSpeed = runningSpeed;
-                if(runDelay < 0f)
-                {
-                    runDelay = 0.5f;
-                    stamina -= staminaLose;
-                }
+               
+                stamina -= Time.deltaTime * staminaLose;
 
                 if(stamina <= 0)
                 {
@@ -123,11 +123,16 @@ namespace InjectorGames.FarAlone.Players
 
                 if(stamina < 0)
                     stamina = 0;
+                if(stamina > maxStamina)
+                {
+                    stamina = maxStamina;
+                }
+                
 
-                if(stamina < maxStamina && stamina >= 0 && restDelay < 0f)
+                if(stamina < maxStamina && stamina >= 0 )
                 {
                     restDelay = 0.7f;
-                    stamina += staminaRest;
+                    stamina += Time.deltaTime * staminaRest;
                     canRun = true;
                 }
             }
