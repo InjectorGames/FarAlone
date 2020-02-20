@@ -24,7 +24,8 @@ namespace InjectorGames.FarAlone.Controllers
 
         [Header("Information")]
         [SerializeField]
-        private float health = 100f; // TODO: use health interval as 1.0f
+        private float health; // TODO: use health interval as 1.0f
+        private const float maxHealth = 100f;
         public float Healt
         {
             get
@@ -39,12 +40,12 @@ namespace InjectorGames.FarAlone.Controllers
         }
 
         [SerializeField]
-        private float stamina = 100f;
+        private float stamina;
+        private const float maxStamina = 100f;
         public float Stamina => Stamina;
 
         private const float staminaLose = 8.3f;
         private const float staminaRest = 3.9f;
-        private float restDelay;
         
 
         [Header("Movement")]
@@ -53,9 +54,7 @@ namespace InjectorGames.FarAlone.Controllers
         [SerializeField]
         private float runningSpeed = 3.25f;
         [SerializeField]
-        private float currentSpeed = 0f;
-        [SerializeField]
-        private float runDelay = 0f;
+        private float currentSpeed;
 
         [SerializeField]
         private bool canRun = true;
@@ -84,6 +83,10 @@ namespace InjectorGames.FarAlone.Controllers
         }
         private void Start()
         {
+            stamina = maxStamina;
+            health = maxHealth;
+            currentSpeed = walkingSpeed;
+
             var camera = Camera.main;
             camera.transparencySortMode = TransparencySortMode.CustomAxis;
             camera.transparencySortAxis = new Vector3(0.0f, 1.0f, 0.0f);
@@ -93,7 +96,7 @@ namespace InjectorGames.FarAlone.Controllers
             // TODO: open pause menu instead
             if (Input.GetKeyDown(KeyCode.Escape))
                 Application.Quit(0);
-            if (HP <= 0)
+            if (health <= 0)
                 Destroy(this.gameObject); //TODO: Game over
 
 
@@ -121,9 +124,6 @@ namespace InjectorGames.FarAlone.Controllers
             var horizontal = Input.GetAxis("Horizontal");
             var vertical = Input.GetAxis("Vertical");
 
-            runDelay -= Time.deltaTime;
-            restDelay -= Time.deltaTime;
-
             if (Input.GetKey(KeyCode.LeftShift) && canRun && stamina > 0) {
                 currentSpeed = runningSpeed;
                
@@ -148,7 +148,6 @@ namespace InjectorGames.FarAlone.Controllers
 
                 if(stamina < maxStamina && stamina >= 0 )
                 {
-                    restDelay = 0.7f;
                     stamina += Time.deltaTime * staminaRest;
                     canRun = true;
                 }
