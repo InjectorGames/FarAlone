@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Status bar
   - Item
+  - OnPause
   layers:
   - Default
   - TransparentFX
