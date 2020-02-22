@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.UI;
 using InjectorGames.FarAlone.UI;
 
@@ -46,6 +47,16 @@ namespace InjectorGames.FarAlone.Controllers
 
         private const float staminaLose = 8.3f;
         private const float staminaRest = 3.9f;
+
+        [SerializeField]
+        private float light; //light from flashLight
+        private float batteryPower = 0.5f; //TODO: create new objects of batteries which will affect to batteryPower
+        private const float maxLight = 100f;
+
+        [SerializeField]
+        private bool lightStatus = false;
+        public bool LightStatus => lightStatus;
+
         
 
         [Header("Movement")]
@@ -65,6 +76,10 @@ namespace InjectorGames.FarAlone.Controllers
         private float cameraSpeed = 1f;
         [SerializeField]
         private Transform handLeft;
+        [SerializeField]
+        private GameObject Blaster;
+        [SerializeField]
+        private GameObject FlashLight;
         [SerializeField]
         private Rigidbody2D rb;
         [SerializeField]
@@ -86,6 +101,20 @@ namespace InjectorGames.FarAlone.Controllers
             stamina = maxStamina;
             health = maxHealth;
             currentSpeed = walkingSpeed;
+            if(Blaster.activeSelf)
+            {
+                light = FlashLight.GetComponent<Light2D>().intensity * 100f;
+                if(light <= 0)
+                    lightStatus = false;
+                if(lightStatus)
+                {
+                    FlashLight.SetActive(true);
+                }
+                else
+                {
+                    FlashLight.SetActive(false);
+                }
+            }
 
             var camera = Camera.main;
             camera.transparencySortMode = TransparencySortMode.CustomAxis;
@@ -99,8 +128,12 @@ namespace InjectorGames.FarAlone.Controllers
             if (health <= 0)
                 Destroy(this.gameObject); //TODO: Game over
 
+            if(Blaster.activeSelf)
+            {
+                UpdateShooting();
+                UpdateFlashlight();
+            }
 
-            UpdateShooting();
         }
         private void FixedUpdate()
         {
@@ -118,6 +151,13 @@ namespace InjectorGames.FarAlone.Controllers
 
             infoWindow.Health = health;
             infoWindow.Stamine = stamina;
+            infoWindow.Light = light;
+            if(Blaster.activeSelf)
+            {
+                infoWindow.flashLightBar.gameObject.SetActive(true);
+                lightStatus = true;
+            }
+
         }
         private void UpdateMovement()
         {
@@ -241,6 +281,37 @@ namespace InjectorGames.FarAlone.Controllers
                     Destroy(blast, 5f);
                 }
             }
+        }
+
+        private void UpdateFlashlight()
+        {
+            if(light <= 0)
+            {
+                lightStatus = false;
+            }
+
+            light = FlashLight.GetComponent<Light2D>().intensity * 100f;
+
+            if(lightStatus)
+            {
+                light -= Time.deltaTime * batteryPower;
+                FlashLight.GetComponent<Light2D>().intensity = light / 100f;
+            }
+
+            if(lightStatus && Input.GetKey(KeyCode.F))
+            {
+                lightStatus = false;
+                FlashLight.SetActive(false);
+                return;
+            }
+            else if(lightStatus == false && Input.GetKey(KeyCode.F) && light > 0)
+            {
+                lightStatus = true;
+                FlashLight.SetActive(true);
+                return;
+            }
+
+
         }
     }
 }

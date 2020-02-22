@@ -41,23 +41,17 @@ namespace InjectorGames.FarAlone.Controllers
             itemLinks = new Dictionary<string, int>();
 
             for (int i = 0; i < detailItems.Length; i++)
-            {
-                var item = detailItems[i];
-                items.Add(item);
-                itemLinks.Add(item.Name, i);
-            }
+                items.Add(detailItems[i]);
 
             for (int i = 0; i < gunItems.Length; i++)
-            {
-                var item = gunItems[i];
-                items.Add(item);
-                itemLinks.Add(item.Name, i);
-            }
+                items.Add(gunItems[i]);
 
             for (int i = 0; i < items.Count; i++)
             {
                 var item = items[i];
                 item.SetID(i);
+
+                itemLinks.Add(item.Name, i);
                 
 
 #if UNITY_EDITOR

@@ -45,6 +45,7 @@ namespace InjectorGames.FarAlone.UI
         {
             UpdateActive();
             UpdateTakedSlot();
+
         }
 
         private void UpdateActive()

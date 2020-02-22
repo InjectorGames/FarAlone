@@ -60,6 +60,24 @@ namespace InjectorGames.FarAlone.UI
             }
         }
 
+        [Header("Flashlight")]
+        [SerializeField]
+        public Slider flashLightBar;
+        [SerializeField]
+        private float light = 0f;
+        public float Light
+        {
+            get
+            {
+                return light;
+            }
+            set
+            {
+                light = value;
+                flashLightBar.value = value / 100f;
+            }
+        }
+
         private void Awake()
         {
             SetInstance();
