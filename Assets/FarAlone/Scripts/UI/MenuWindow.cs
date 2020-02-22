@@ -33,7 +33,7 @@ namespace InjectorGames.FarAlone.UI
             // TEMPORARY
             if(PlayerPrefs.GetInt("IsDead", 0) == 1)
             {
-                PlayerPrefs.SetInt("IsDead", 1);
+                PlayerPrefs.SetInt("IsDead", 0);
                 deathWindow.SetActive(true);
             }
         }
