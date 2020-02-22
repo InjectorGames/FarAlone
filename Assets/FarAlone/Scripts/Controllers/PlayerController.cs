@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.UI;
 using InjectorGames.FarAlone.UI;
+using UnityEngine.SceneManagement;
 
 namespace InjectorGames.FarAlone.Controllers
 {
@@ -36,7 +37,12 @@ namespace InjectorGames.FarAlone.Controllers
             set
             {
                 health = value;
-                // TODO: check for death
+
+                if (health < 0)
+                {
+                    PlayerPrefs.SetInt("IsDead", 1);
+                    SceneManager.LoadScene(0);
+                }
             }
         }
 
