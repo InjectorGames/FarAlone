@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 namespace InjectorGames.FarAlone.Repairs
 {
@@ -28,6 +29,8 @@ namespace InjectorGames.FarAlone.Repairs
             {
                 lightIntensity = 1f;
                 intensityDelay = float.PositiveInfinity;
+                PlayerPrefs.SetInt("IsDead", 2);
+                SceneManager.LoadScene(0);
             }
             else if(percent >= 0.25f)
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 namespace InjectorGames.FarAlone.UI
 {
@@ -34,6 +35,12 @@ namespace InjectorGames.FarAlone.UI
             if(PlayerPrefs.GetInt("IsDead", 0) == 1)
             {
                 PlayerPrefs.SetInt("IsDead", 0);
+                deathWindow.SetActive(true);
+            }
+            else if (PlayerPrefs.GetInt("IsDead", 0) == 2)
+            {
+                PlayerPrefs.SetInt("IsDead", 0);
+                deathWindow.GetComponentInChildren<Text>().text = "YOU ARE NOT DEAD\n:)";
                 deathWindow.SetActive(true);
             }
         }
