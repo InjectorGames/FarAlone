@@ -65722,7 +65722,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!210 &7212116031223067624
 SortingGroup:
   m_ObjectHideFlags: 0

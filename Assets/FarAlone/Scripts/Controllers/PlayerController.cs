@@ -155,7 +155,6 @@ namespace InjectorGames.FarAlone.Controllers
             if(Blaster.activeSelf)
             {
                 infoWindow.flashLightBar.gameObject.SetActive(true);
-                lightStatus = true;
             }
 
         }
