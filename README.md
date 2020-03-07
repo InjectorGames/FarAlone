@@ -4,4 +4,4 @@ A boy accidentally sent into space crashes on a distant planet, and now he needs
 
 ![Far Alone screeshot](https://github.com/InjectorGames/FarAlone/blob/master/FarAloneScreenshot1.png)
 
-### [Global Game Jame Site](https://globalgamejam.org/2020/games/reborn-game-7)
+### [Global Game Jam Website](https://globalgamejam.org/2020/games/reborn-game-7)
