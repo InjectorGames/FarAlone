@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2399054023073258015}
   - component: {fileID: 2399054023073258012}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Baby Snail
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,15 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a57f251fcf87474b9f406c4c27d2556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Snail
   HP: 30
   AtkDamage: 5
   AtkRange: 0.5
   AtkSpeed: 0.3
   MovSpeed: 1
   VisRange: 9
-  FolRange: 20
-  player: {fileID: 0}
+  target: {fileID: 0}
 --- !u!50 &2399054023073258013
 Rigidbody2D:
   serializedVersion: 4
@@ -117,7 +115,7 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
+  m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 1
