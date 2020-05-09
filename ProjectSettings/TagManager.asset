@@ -9,6 +9,7 @@ TagManager:
   - Status bar
   - Item
   - OnPause
+  - Tilemap
   layers:
   - Default
   - TransparentFX

@@ -71,7 +71,6 @@ namespace InjectorGames.FarAlone.Spawners{
             {
                 foreach(GameObject _enemy in enemies)
                 {
-                    Debug.Log(_enemy.GetComponent<Enemy>().HP);
                     if(_enemy.GetComponent<Enemy>().HP <= 0)
                     {
                         enemies.RemoveAt(enemies.IndexOf(_enemy));

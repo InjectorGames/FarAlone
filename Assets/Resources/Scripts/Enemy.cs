@@ -41,15 +41,11 @@ public class Enemy : MonoBehaviour
 
     }
 
-
-
-
     void OnTriggerEnter2D(Collider2D trigger)
     {
         if(trigger.CompareTag("Blast"))
         {
             HP -= 7.5f;
-            Debug.Log(HP);
             Destroy(trigger.gameObject);
         }
     }
