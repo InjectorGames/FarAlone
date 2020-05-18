@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InjectorGames.FarAlone.Enemies;
 
 namespace InjectorGames.FarAlone.Spawners{
     public class EnemySpawner : MonoBehaviour
@@ -22,7 +23,7 @@ namespace InjectorGames.FarAlone.Spawners{
         [SerializeField]
         List<ESPoint> points = new List<ESPoint>();
         [SerializeField]
-        List<GameObject> enemies = new List<GameObject>();
+        List<GameObject> currentEnemies = new List<GameObject>();
 
         const int maxSpawn = 2;
 
@@ -43,7 +44,7 @@ namespace InjectorGames.FarAlone.Spawners{
         
         bool IsMaxSpawned()
         {
-            if(enemies.Count >= maxSpawn)
+            if(currentEnemies.Count >= maxSpawn)
                 return true;
             return false;
         }
@@ -55,7 +56,7 @@ namespace InjectorGames.FarAlone.Spawners{
             {
                 nextSpawnTime = Time.time + spawnDelay;
                 GameObject _enemy = Instantiate(enemy, (Vector3) points[spawnPos].position, new Quaternion(0, 0, 0, 0)) as GameObject;
-                enemies.Add(_enemy);
+                currentEnemies.Add(_enemy);
             }
 
         }
@@ -67,23 +68,18 @@ namespace InjectorGames.FarAlone.Spawners{
 
         void UpdateEnemy()
         {
-            if(enemies != null)
+            if(currentEnemies != null)
             {
-                foreach(GameObject _enemy in enemies)
+                foreach(GameObject _enemy in currentEnemies)
                 {
-                    if(_enemy.GetComponent<Enemy>().HP <= 0)
+                    if(_enemy.GetComponent<Snail>().HP <= 0)
                     {
-                        enemies.RemoveAt(enemies.IndexOf(_enemy));
+                        currentEnemies.RemoveAt(currentEnemies.IndexOf(_enemy));
                         return;
                     }
                 }
             }
         }
-
-
-
-
-
 
         void CreateField()
         {

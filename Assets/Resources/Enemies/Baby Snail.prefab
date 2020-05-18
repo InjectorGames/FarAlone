@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2399054023073258464}
   - component: {fileID: 2399054023073258466}
-  - component: {fileID: 2399054023073258467}
   - component: {fileID: 2399054023073258013}
   - component: {fileID: 2399054023073258015}
   - component: {fileID: 2399054023073258012}
+  - component: {fileID: 8501024414161590244}
   m_Layer: 0
   m_Name: Baby Snail
   m_TagString: Enemy
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2399054023073258465}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.7, y: -0.89, z: 0}
-  m_LocalScale: {x: 0.6792151, y: 0.6792151, z: 0.6792151}
+  m_LocalScale: {x: 0.6792151, y: 0.6792151, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -85,25 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2399054023073258467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2399054023073258465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a57f251fcf87474b9f406c4c27d2556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HP: 30
-  AtkDamage: 5
-  AtkRange: 0.5
-  AtkSpeed: 0.3
-  MovSpeed: 1
-  VisRange: 9
-  target: {fileID: 0}
 --- !u!50 &2399054023073258013
 Rigidbody2D:
   serializedVersion: 4
@@ -152,3 +133,23 @@ SortingGroup:
   m_SortingLayerID: 1906147693
   m_SortingLayer: 3
   m_SortingOrder: 0
+--- !u!114 &8501024414161590244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2399054023073258465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 680315767383e3242bafc1e7421e7827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 30
+  AtkDamage: 5
+  AtkRange: 2
+  AtkSpeed: 1
+  MovSpeed: 3
+  VisRange: 10
+  target: {fileID: 0}
+  rb: {fileID: 2399054023073258013}

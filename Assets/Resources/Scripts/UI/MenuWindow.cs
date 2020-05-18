@@ -23,12 +23,20 @@ namespace InjectorGames.FarAlone.UI
         [SerializeField]
         private GameObject game;
         [SerializeField]
+        private GameObject rain;
+        [SerializeField]
         private GameObject menu;
+        [SerializeField]
+        private GameObject InGameCanvas;
         [SerializeField]
         private GameObject deathWindow;
 
+
         private void Awake()
         {
+            InGameCanvas.SetActive(false);
+            game.SetActive(false);
+            rain.SetActive(false);
             SetInstance();
 
             // TEMPORARY
@@ -47,8 +55,10 @@ namespace InjectorGames.FarAlone.UI
 
         public void OnStart()
         {
+            InGameCanvas.SetActive(true);
             menu.SetActive(false);
             game.SetActive(true);
+            rain.SetActive(true);
         }
         public void OnOptions()
         {

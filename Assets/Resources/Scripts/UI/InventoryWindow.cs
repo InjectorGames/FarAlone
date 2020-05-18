@@ -11,6 +11,7 @@ namespace InjectorGames.FarAlone.UI
     public sealed class InventoryWindow : Window
     {
         #region Singletone
+        [SerializeField]
         public static InventoryWindow Instance;
 
         private void SetInstance()
