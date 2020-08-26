@@ -30,6 +30,14 @@ namespace InjectorGames.FarAlone.UI
         private GameObject InGameCanvas;
         [SerializeField]
         private GameObject deathWindow;
+        [SerializeField]
+        private GameObject WorldGeneration;
+        [SerializeField]
+        private GameObject SaveManager;
+        [SerializeField]
+        private GameObject TileCollection;
+        [SerializeField]
+        private GameObject TilemapCollection;
 
 
         private void Awake()
@@ -37,6 +45,11 @@ namespace InjectorGames.FarAlone.UI
             InGameCanvas.SetActive(false);
             game.SetActive(false);
             rain.SetActive(false);
+            WorldGeneration.SetActive(false);
+            SaveManager.SetActive(false);
+            TileCollection.SetActive(false);
+            TilemapCollection.SetActive(false);
+
             SetInstance();
 
             // TEMPORARY
@@ -59,6 +72,10 @@ namespace InjectorGames.FarAlone.UI
             menu.SetActive(false);
             game.SetActive(true);
             rain.SetActive(true);
+            WorldGeneration.SetActive(true);
+            SaveManager.SetActive(true);
+            TileCollection.SetActive(true);
+            TilemapCollection.SetActive(true);            
         }
         public void OnOptions()
         {

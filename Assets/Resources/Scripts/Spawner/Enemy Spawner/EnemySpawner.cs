@@ -111,7 +111,7 @@ namespace InjectorGames.FarAlone.Spawners{
 
         void OnDrawGizmos() 
         {
-            Gizmos.DrawWireCube(transform.position, new Vector2(spawnField.x, spawnField.y));
+            Gizmos.DrawWireCube(transform.position, spawnField);
             if(points != null)
             {
                 foreach (ESPoint p in points)
